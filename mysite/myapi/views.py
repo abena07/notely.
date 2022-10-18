@@ -22,7 +22,7 @@ class NoteApiView(APIView):
      serializer = NoteSerializer(notes, many=True)
      return Response(serializer.data, status=status.HTTP_200_OK)
 
-#function to create a new note
+    #function to create a new note
     def post(self, request, *args, **kwargs):
      
         data = {
