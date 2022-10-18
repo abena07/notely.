@@ -18,7 +18,7 @@ class NoteApiView(APIView):
     #function to get all notes
     def get(self, request, *args, **kwargs):
         
-     notes = Note.objects.all().order_by('title')
+     notes = Note.objects.all().order_by('id')
      serializer = NoteSerializer(notes, many=True)
      return Response(serializer.data, status=status.HTTP_200_OK)
 
