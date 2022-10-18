@@ -4,6 +4,7 @@ from rest_framework import routers
 from . import views
 from .views import (
     NoteApiView,
+    NoteDetailApiView
 )
 
 router = routers.DefaultRouter()
@@ -14,5 +15,6 @@ router.register(r'notes', views.NoteViewSet)
 urlpatterns = [
   path('notes/api', NoteApiView.as_view()),
   path('', include(router.urls)),
-  path('api-auth/', include('rest_framework.urls', namespace='rest_framework'))
+  path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+  path('notes/api/<int:id>/',NoteDetailApiView.as_view()),
 ]
