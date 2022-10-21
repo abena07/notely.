@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render,get_object_or_404,redirect
 from rest_framework import viewsets
 from .serializers import NoteSerializer
 from rest_framework.response import Response
@@ -6,24 +6,26 @@ from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework import status
 from .models import Note
+from .forms import NoteForm
 
 # Create your views here.
-class NoteViewSet(viewsets.ModelViewSet):
+"""class NoteViewSet(viewsets.ModelViewSet):
     queryset = Note.objects.all().order_by('title')
-    serializer_class = NoteSerializer
+    serializer_class = NoteSerializer"""
 
-class NoteApiView(APIView):
+"""class NoteApiView(APIView):
     # add permission to check if user is authenticated
     permission_classes = [permissions.IsAuthenticated]
     #function to get all notes
-    def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs ):
         
      notes = Note.objects.all().order_by('id')
      serializer = NoteSerializer(notes, many=True)
      return Response(serializer.data, status=status.HTTP_200_OK)
+     
 
     #function to create a new note
-    def post(self, request, *args, **kwargs):
+    def note(self, request, *args, **kwargs):
      
         data = {
             'title': request.data.get('title'), 
@@ -96,4 +98,41 @@ class NoteDetailApiView(APIView):
         return Response(
             {"res": "Object deleted!"},
             status=status.HTTP_200_OK
-        )
+        )"""
+
+
+#actual views for my files
+def note_list(request):
+    notes = Note.objects.all().order_by('id')
+    return render(request, 'myapi/note_list.html', {'notes': notes})
+
+def note_detail(request, pk):
+    note = get_object_or_404(note, pk=pk)
+    return render(request, 'myapi/note_detail.html', {'note': note})
+
+def note_new(request):
+    form = NoteForm()
+    return render(request, 'myapi/note_edit.html', {'form': form})
+
+def note_new(request):
+    if request.method == "note":
+        form = NoteForm(request.note)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.save()
+            return redirect('note_detail', pk=note.pk)
+    else:
+        form = NoteForm()
+    return render(request, 'myapi/note_edit.html', {'form': form})
+
+def note_edit(request, pk):
+    note = get_object_or_404(note, pk=pk)
+    if request.method == "note":
+        form = NoteForm(request.note, instance=note)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.save()
+            return redirect('note_detail', pk=note.pk)
+    else:
+        form = NoteForm(instance=note)
+    return render(request, 'myapi/note_edit.html', {'form': form})
