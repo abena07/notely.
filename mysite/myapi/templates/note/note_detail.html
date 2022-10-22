@@ -1,10 +1,12 @@
 {% extends 'note/base.html' %}
 
+
 {% block content %}
     <article class="note">
         <aside class="actions">
             <a class="btn btn-secondary" href="{% url 'note_edit' pk=note.pk %}">
                 {% include './icons/pencil-fill.svg' %}
+                
             </a>
         </aside>
        
