@@ -27,7 +27,7 @@
                
 
                 {% block content %}
-                {% for note in note %}
+                {% for note in notes %}
                 <article class="note">
                  
                     <h2><a href="{% url 'note_detail' pk=note.pk %}">{{note.title }}</a></h2>
