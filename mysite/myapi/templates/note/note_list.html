@@ -15,7 +15,7 @@
 <body>
     <header class="page-header">
         <div class="container">
-            <h1><a href="/">notely.</a></h1>
+            <h3><a href="/">notely.</a></h3>
             <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet"
                 type="text/css">
         </div>
@@ -29,8 +29,7 @@
                 {% block content %}
                 {% for note in notes %}
                 <article class="note">
-                 
-                    <h2><a href="{% url 'note_detail' pk=note.pk %}">{{note.title }}</a></h2>
+                    <h5><a href="{% url 'note_detail' pk=note.pk %}">{{note.title }}</a></h5>
                     <p>{{note.content|linebreaksbr }}</p>
                 </article>
                 {% endfor %}
@@ -41,12 +40,7 @@
 
 
 
-    <article class="note">
-        
-        <h2><a href="">My second note</a></h2>
-        <p>Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Donec id elit non mi porta
-            gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut f.</p>
-    </article>
+    
 </body>
 
 </html>
