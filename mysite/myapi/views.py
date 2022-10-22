@@ -104,35 +104,35 @@ class NoteDetailApiView(APIView):
 #actual views for my files
 def note_list(request):
     notes = Note.objects.all().order_by('id')
-    return render(request, 'myapi/note_list.html', {'notes': notes})
+    return render(request, 'note/note_list.html', {'notes': notes})
 
 def note_detail(request, pk):
-    note = get_object_or_404(note, pk=pk)
-    return render(request, 'myapi/note_detail.html', {'note': note})
+    note = get_object_or_404(Note, pk=pk)
+    return render(request, 'note/note_detail.html', {'note': note})
 
 def note_new(request):
     form = NoteForm()
-    return render(request, 'myapi/note_edit.html', {'form': form})
+    return render(request, 'note/note_edit.html', {'form': form})
 
 def note_new(request):
-    if request.method == "note":
-        form = NoteForm(request.note)
+    if request.method == "POST":
+        form = NoteForm(request.POST)
         if form.is_valid():
             note = form.save(commit=False)
             note.save()
             return redirect('note_detail', pk=note.pk)
     else:
         form = NoteForm()
-    return render(request, 'myapi/note_edit.html', {'form': form})
+    return render(request, 'note/note_edit.html', {'form': form})
 
 def note_edit(request, pk):
-    note = get_object_or_404(note, pk=pk)
-    if request.method == "note":
-        form = NoteForm(request.note, instance=note)
+    note = get_object_or_404(Note, pk=pk)
+    if request.method == "POST":
+        form = NoteForm(request.POST, instance=note)
         if form.is_valid():
             note = form.save(commit=False)
             note.save()
             return redirect('note_detail', pk=note.pk)
     else:
         form = NoteForm(instance=note)
-    return render(request, 'myapi/note_edit.html', {'form': form})
+    return render(request, 'note/note_edit.html', {'form': form})
